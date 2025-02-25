@@ -34,6 +34,92 @@
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
+  <!-- <style>
+            .service-item {
+            width: 100%;
+            height: 300px;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .image-slider {
+            position: absolute;
+            width: 300%;
+            height: 100%;
+            display: flex;
+            left: 100%;
+            animation: slide 12s alternate;
+        }
+
+        .image-slider div {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            flex-shrink: 0;
+        }
+
+        @keyframes slide {
+            0% {
+                left: 100%;
+            }
+            33% {
+                left: 0;
+            }
+            66% {
+                left: -100%;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+  </style> -->
+  <style>
+    .slider-container {
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .slider-wrapper {
+        display: flex;
+        transition: transform 1s ease-in-out;
+    }
+
+    .slider-item {
+        min-width: 100%;
+        height: 400px;
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+    .audio-button {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            background-color: #3b82f6;
+            color: white;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s;
+        }
+
+        .audio-button:hover {
+            background-color: #2563eb;
+        }
+</style>
 </head>
 
 <body class="index-page">
@@ -209,8 +295,18 @@
               <a href="paket_a.html" class="stretched-link"></a>
             </div>
           </div><!-- End Service Item -->
-          
 
+          
+            <div class="col-lg-4 col-md-6 mx-auto">
+                <div class="slider-container" data-aos="fade-up" data-aos-delay="500">
+                    <div class="slider-wrapper">
+                        <div class="slider-item" style="background-image: url('assets/images/conpany.jpg');"></div>
+                        <div class="slider-item" style="background-image: url('assets/images/conpany2.jpg');"></div>
+                        <div class="slider-item" style="background-image: url('assets/images/company3.jpg');"></div>
+                    </div>
+                </div>
+            </div>
+        
 
           <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="600">
             <div class="service-item item-pink position-relative">
@@ -227,11 +323,6 @@
                 Paket ini dirancang bagi Anda yang membutuhkan website dengan fitur khusus dan kustomisasi penuh.
               </p>
               <a href="paket_a.html" class="stretched-link"></a>
-            </div>
-          </div><!-- End Service Item -->
-
-          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
-            <div class="service-item item-indigo position-relative" style="background-image: url(assets/images/conpany.jpg); background-position: center;">
             </div>
           </div><!-- End Service Item -->
 
@@ -669,6 +760,9 @@
 
     </section><!-- /Contact Section -->
 
+    <audio id="background-audio" src="assets/[mp3-youtube.com]Happy Birthday (Piano Version)[mp3-youtube.com].mp3" loop></audio>
+    <button id="audio-toggle" class="audio-button">🔊</button>
+
   </main>
 
   <footer id="footer" class="footer light-background">
@@ -741,6 +835,81 @@
   <div id="preloader"></div>
 
   <!-- Vendor JS Files -->
+   <!-- <script>
+            const slider = document.querySelector('.image-slider');
+        slider.addEventListener('animationiteration', () => {
+            slider.style.animation = 'none';
+            void slider.offsetWidth; // Restart animation
+            slider.style.animation = 'slide 12s infinite linear';
+        });
+   </script> -->
+   <script>
+        const sliderWrapper = document.querySelector('.slider-wrapper');
+        const slides = document.querySelectorAll('.slider-item');
+        let currentIndex = 0;
+
+        function autoSlide() {
+            currentIndex++;
+            if (currentIndex >= slides.length) currentIndex = 0;
+
+            sliderWrapper.style.transform = `translateX(-${currentIndex * 100}%)`;
+        }
+
+        // Set jeda ketika gambar berada di tengah div (3 detik)
+        setInterval(autoSlide, 4000);
+
+    // document.addEventListener("DOMContentLoaded", function () {
+    // const audio = document.getElementById("backgroundMusic");
+    // const musicButton = document.getElementById("musicControlButton");
+    // let isPlaying = true;
+
+    // Putar musik secara otomatis dalam mode mute, lalu unmute
+  //   audio.muted = true;
+  //   audio.play().then(() => {
+  //     audio.muted = false;
+  //   }).catch(error => {
+  //     console.log("Autoplay gagal: ", error);
+  //   });
+
+  //   // Toggle musik saat tombol ditekan
+  //   musicButton.addEventListener("click", () => {
+  //     if (isPlaying) {
+  //       audio.pause();
+  //       isPlaying = false;
+  //       musicButton.innerHTML = "🔇";
+  //     } else {
+  //       audio.play().then(() => {
+  //         isPlaying = true;
+  //         musicButton.innerHTML = "🔊";
+  //       }).catch(error => {
+  //         console.log("Pemutaran gagal: ", error);
+  //       });
+  //     }
+  //   });
+  // });
+
+  document.addEventListener('DOMContentLoaded', () => {
+            const audio = document.getElementById('background-audio');
+            const button = document.getElementById('audio-toggle');
+
+            // Play audio from the beginning when page loads or refreshes
+            audio.currentTime = 0;
+            audio.play().catch(() => {});
+            button.textContent = '🔊';
+
+            button.addEventListener('click', () => {
+                if (audio.paused) {
+                    audio.currentTime = 0;
+                    audio.play().catch(() => {});
+                    button.textContent = '🔊';
+                } else {
+                    audio.pause();
+                    button.textContent = '🔇';
+                }
+            });
+        });
+
+  </script>
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
   <script src="assets/vendor/aos/aos.js"></script>
