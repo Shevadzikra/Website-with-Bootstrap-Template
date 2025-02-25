@@ -119,6 +119,19 @@
         .audio-button:hover {
             background-color: #2563eb;
         }
+
+        .mute-btn {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+        .mute-btn.muted {
+            background-color: #f44336;
+        }
 </style>
 </head>
 
@@ -760,8 +773,8 @@
 
     </section><!-- /Contact Section -->
 
-    <audio id="background-audio" src="assets/[mp3-youtube.com]Happy Birthday (Piano Version)[mp3-youtube.com].mp3" loop></audio>
-    <button id="audio-toggle" class="audio-button">🔊</button>
+    <audio id="backgroundMusic" src="assets/[mp3-youtube.com]Happy Birthday (Piano Version)[mp3-youtube.com].mp3" autoplay loop></audio>
+    <button id="musicControlButton" class="audio-button">🔊</button>
 
   </main>
 
@@ -833,17 +846,13 @@
 
   <!-- Preloader -->
   <div id="preloader"></div>
-
-  <!-- Vendor JS Files -->
-   <!-- <script>
-            const slider = document.querySelector('.image-slider');
-        slider.addEventListener('animationiteration', () => {
-            slider.style.animation = 'none';
-            void slider.offsetWidth; // Restart animation
-            slider.style.animation = 'slide 12s infinite linear';
-        });
-   </script> -->
    <script>
+        // window.onload = () => {
+        //     const audio = document.getElementById('background-audio');
+        //     audio.currentTime = 0;
+        //     audio.play().catch(() => {});
+        // };
+
         const sliderWrapper = document.querySelector('.slider-wrapper');
         const slides = document.querySelectorAll('.slider-item');
         let currentIndex = 0;
@@ -858,56 +867,37 @@
         // Set jeda ketika gambar berada di tengah div (3 detik)
         setInterval(autoSlide, 4000);
 
-    // document.addEventListener("DOMContentLoaded", function () {
-    // const audio = document.getElementById("backgroundMusic");
-    // const musicButton = document.getElementById("musicControlButton");
-    // let isPlaying = true;
+    document.addEventListener("DOMContentLoaded", function () {
+    const audio = document.getElementById("backgroundMusic");
+    const musicButton = document.getElementById("musicControlButton");
+    let isPlaying = true;
 
     // Putar musik secara otomatis dalam mode mute, lalu unmute
-  //   audio.muted = true;
-  //   audio.play().then(() => {
-  //     audio.muted = false;
-  //   }).catch(error => {
-  //     console.log("Autoplay gagal: ", error);
-  //   });
+    audio.muted = true;
+    audio.play().then(() => {
+      audio.muted = false;
+    }).catch(error => {
+      console.log("Autoplay gagal: ", error);
+    });
 
-  //   // Toggle musik saat tombol ditekan
-  //   musicButton.addEventListener("click", () => {
-  //     if (isPlaying) {
-  //       audio.pause();
-  //       isPlaying = false;
-  //       musicButton.innerHTML = "🔇";
-  //     } else {
-  //       audio.play().then(() => {
-  //         isPlaying = true;
-  //         musicButton.innerHTML = "🔊";
-  //       }).catch(error => {
-  //         console.log("Pemutaran gagal: ", error);
-  //       });
-  //     }
-  //   });
-  // });
-
-  document.addEventListener('DOMContentLoaded', () => {
-            const audio = document.getElementById('background-audio');
-            const button = document.getElementById('audio-toggle');
-
-            // Play audio from the beginning when page loads or refreshes
-            audio.currentTime = 0;
-            audio.play().catch(() => {});
-            button.textContent = '🔊';
-
-            button.addEventListener('click', () => {
-                if (audio.paused) {
-                    audio.currentTime = 0;
-                    audio.play().catch(() => {});
-                    button.textContent = '🔊';
-                } else {
-                    audio.pause();
-                    button.textContent = '🔇';
-                }
-            });
+    // Toggle musik saat tombol ditekan
+    musicButton.addEventListener("click", () => {
+      if (isPlaying) {
+        audio.pause();
+        isPlaying = false;
+        musicButton.innerHTML = "🔇";
+      } else {
+        audio.play().then(() => {
+          isPlaying = true;
+          musicButton.innerHTML = "🔊";
+        }).catch(error => {
+          console.log("Pemutaran gagal: ", error);
         });
+      }
+    });
+  });
+
+
 
   </script>
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
